@@ -5,4 +5,4 @@ class PontoTuristicoSerializer(ModelSerializer):
 
     class Meta():
         model = PontoTuristico
-        fields = ('id', 'nome', 'descricao', 'atracoes')
+        fields = ('id', 'nome', 'descricao', 'atracoes', 'foto')
