@@ -5,6 +5,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
 from core.models import PontoTuristico
 from .serializers import PontoTuristicoSerializer
+from django.http import HttpResponse
 
 
 class PontoTuristicoViewSet(ModelViewSet):
@@ -15,7 +16,7 @@ class PontoTuristicoViewSet(ModelViewSet):
     serializer_class = PontoTuristicoSerializer
     filter_backends = (SearchFilter,)
     search_fields = ('nome', 'descricao', 'enderecos__linha1')
-    lookup_field = 'nome'
+    lookup_field = 'id'
 
     # SOBRESCREVE O METODO GET COM UM FILTRO
     def get_queryset(self):
@@ -42,3 +43,13 @@ class PontoTuristicoViewSet(ModelViewSet):
     def denunciar(self, request, pk=None):
         ponto_turistico = PontoTuristico.objects.filter(pk=pk)
         return ponto_turistico
+
+    @action(methods=['post'], detail=True)
+    def associa_atracoes(self, request, id):
+        atracoes = request.data['ids']
+        
+        ponto = PontoTuristico.objects.get(id=pk)
+        ponto.atracoes.set(atracoes)
+        ponto.save()
+        return HttpReponse('ok')
+
